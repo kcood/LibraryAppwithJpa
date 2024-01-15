@@ -20,6 +20,7 @@ public class UserServiceV2 {
         this.userRepository = userRepository;
     }
 
+    @Transactional
     public void saveUser(UserCreateRequest request){
         userRepository.save(new User(request.getName(), request.getAge()));
     }
@@ -31,14 +32,16 @@ public class UserServiceV2 {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public void updateUser(UserUpdateRequest request){
         User user = userRepository.findById(request.getId())
                 .orElseThrow(IllegalArgumentException::new);
 
         user.updateName(request.getName());
-        userRepository.save(user);
+        //userRepository.save(user);
     }
 
+    @Transactional
     public void deleteUser(String name){
         User user = userRepository.findByName(name)
                 .orElseThrow(IllegalArgumentException::new);
